@@ -1,6 +1,59 @@
 package tictactoe;
 
 public class Games {
+    char[][] matrix;
+
+    public Games() {
+        this.matrix = new char[3][3];
+    }
+
+    private int[] remapCoordinates(int index) {
+        int[] rc = new int[2];
+//        rc - row column
+
+        switch (index) {
+            case 0: rc[0] = 1; rc[1] = 3; break;
+            case 1: rc[0] = 2; rc[1] = 3; break;
+            case 2: rc[0] = 3; rc[1] = 3; break;
+            case 3: rc[0] = 1; rc[1] = 2; break;
+            case 4: rc[0] = 2; rc[1] = 2; break;
+            case 5: rc[0] = 3; rc[1] = 2; break;
+            case 6: rc[0] = 1; rc[1] = 1; break;
+            case 7: rc[0] = 2; rc[1] = 1; break;
+            case 8: rc[0] = 3; rc[1] = 1; break;
+        }
+
+        return rc;
+    }
+
+    private int remapCoordinates(int row, int column) {
+        int index = -1;
+
+        if (row == 1) {
+            switch (column) {
+                case 1: index = 6; break;
+                case 2: index = 3; break;
+                case 3: index = 0; break;
+            }
+        }
+        if (row == 2) {
+            switch (column) {
+                case 1: index = 7; break;
+                case 2: index = 4; break;
+                case 3: index = 1; break;
+            }
+        }
+        if (row == 3) {
+            switch (column) {
+                case 1: index = 8; break;
+                case 2: index = 5; break;
+                case 3: index = 2; break;
+            }
+        }
+
+        return index;
+    }
+    
     public void enterCoordinates(int row, int column) {
 //        while (true) {
 //            System.out.println("Enter the coordinates: ");
