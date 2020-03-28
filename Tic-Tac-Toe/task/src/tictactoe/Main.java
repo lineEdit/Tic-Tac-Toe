@@ -5,10 +5,36 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+//        Scanner scanner = new Scanner("X_X_O____");
         System.out.println("Enter cells: ");
         char[] chars = scanner.next().toCharArray();
+        char[][] matrix = {
+                {0, 0, 0, 0},
+                {0, chars[6], chars[7], chars[8]},
+                {0, chars[3], chars[4], chars[5]},
+                {0, chars[0], chars[1], chars[2]},
+        };
         show(chars);
-        stateGame(chars);
+        while (true) {
+            System.out.println("Enter the coordinates: ");
+            int row = 0;
+            int column = 0;
+            if (scanner.hasNextInt() && scanner.hasNextInt()) {
+                row = scanner.nextInt();
+                column = scanner.nextInt();
+                if (1 < row || row > 3 || 1 < column || column > 3) {
+                    System.out.println("Coordinates should be from 1 to 3!");
+                }
+            } else {
+                System.out.println("You should enter numbers!");
+            }
+            if (matrix[row][column] != '_') {
+                System.out.println("This cell is occupied! Choose another one!");
+            } else {
+
+            }
+        }
+//        stateGame(chars);
     }
 
     private static void show(char[] chars) {
