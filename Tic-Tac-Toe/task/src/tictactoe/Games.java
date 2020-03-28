@@ -82,13 +82,15 @@ public class Games {
                 int column = Integer.parseInt(strSplit[1]);
                 if (1 > row || row > 3 || 1 > column || column > 3) {
                     System.out.println("Coordinates should be from 1 to 3!");
-                }
-                int index = remapCoordinates(row, column);
-                if (chars[index] != '_') {
-                    chars[index] = 'X';
-                    break;
                 } else {
-                    Input.sout("This cell is occupied! Choose another one!");
+                    int index = remapCoordinates(row, column);
+                    if (chars[index] == '_') {
+                        chars[index] = 'X';
+                        show();
+                        break;
+                    } else {
+                        Input.sout("This cell is occupied! Choose another one!");
+                    }
                 }
             } catch (NumberFormatException e) {
                 Input.sout("You should enter numbers!");
