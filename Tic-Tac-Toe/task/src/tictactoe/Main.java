@@ -45,7 +45,7 @@ public class Main {
         if (Math.abs(xCount - oCount) > 1) {
             return true;
         }
-        return false;
+        return isWinner(chars, 'X') && isWinner(chars, 'O');
     }
 
     private static boolean isRow(char[] chars, char c) {
@@ -82,42 +82,15 @@ public class Main {
         ) {
             return true;
         }
-        if (
-                chars[2] == c &&
+        return chars[2] == c &&
                 chars[4] == c &&
-                chars[6] == c
-        ) {
-            return true;
-        }
-        return false;
+                chars[6] == c;
     }
 
-    private static boolean isWinsExist (char[] chars) {
-        if (isRow(chars, 'X')) {
-            System.out.println("X wins");
-            return true;
-        }
-        if (isRow(chars, 'O')) {
-            System.out.println("O wins");
-            return true;
-        }
-        if (isColumn(chars, 'X')) {
-            System.out.println("X wins");
-            return true;
-        }
-        if (isColumn(chars, 'O')) {
-            System.out.println("O wins");
-            return true;
-        }
-        if (isDiag(chars, 'X')) {
-            System.out.println("X wins");
-            return true;
-        }
-        if (isDiag(chars, 'O')) {
-            System.out.println("O wins");
-            return true;
-        }
-        return false;
+    private static boolean isWinner(char[] chars, char c) {
+        return isRow(chars, c)
+                || isColumn(chars, c)
+                || isDiag(chars, c);
     }
 
     private static boolean isEmtyCells(char[] chars) {
@@ -134,7 +107,12 @@ public class Main {
             System.out.println("Impossible");
             return;
         }
-        if (isWinsExist(chars)) {
+        if (isWinner(chars, 'X')) {
+            System.out.println("X wins");
+            return;
+        }
+        if (isWinner(chars, 'O')) {
+            System.out.println("O wins");
             return;
         }
         if (isEmtyCells(chars)) {
