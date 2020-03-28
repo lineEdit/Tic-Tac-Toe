@@ -4,8 +4,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-//        Scanner scanner = new Scanner(System.in);
-        Scanner scanner = new Scanner("XXXOO__O_");
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Enter cells: ");
         char[] chars = scanner.next().toCharArray();
         show(chars);
@@ -32,22 +31,116 @@ public class Main {
         System.out.println(outString);
     }
 
-    public static void stateGame(char[] chars) {
-        int[] xRow = new int[3];
-        int[] oRow = new int[3];
-        int[] zRow = new int[3];
-        for (int i = 0; i < 3; ++i) {
-            for (int j = i * 3; j < (i + 1) * 3; ++j) {
-                if (chars[j] == 'X') {
-                    xRow[i]++;
-                }
-                if (chars[j] == 'O') {
-                    oRow[i]++;
-                }
-                if (chars[j] == '_') {
-                    zRow[i]++;
-                }
+    private static boolean isImpossible(char[] chars) {
+        int xCount = 0;
+        int oCount = 0;
+        for (char item : chars) {
+            if (item == 'X') {
+                ++xCount;
             }
+            if (item == 'O') {
+                ++oCount;
+            }
+        }
+        if (Math.abs(xCount - oCount) > 1) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean isRow(char[] chars, char c) {
+        for (int i = 0; i < 3; ++i) {
+            if (
+                    chars[i] == c &&
+                    chars[i+3] == c &&
+                    chars[i+6] == c
+            ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean isColumn(char[] chars, char c) {
+        for (int i = 0; i < 3; ++i) {
+            if (
+                    chars[i*3] == c &&
+                    chars[i*3+1] == c &&
+                    chars[i*3+2] == c
+            ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean isDiag(char[] chars, char c) {
+        if (
+                chars[0] == c &&
+                chars[4] == c &&
+                chars[8] == c
+        ) {
+            return true;
+        }
+        if (
+                chars[2] == c &&
+                chars[4] == c &&
+                chars[6] == c
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean isWinsExist (char[] chars) {
+        if (isRow(chars, 'X')) {
+            System.out.println("X wins");
+            return true;
+        }
+        if (isRow(chars, 'O')) {
+            System.out.println("O wins");
+            return true;
+        }
+        if (isColumn(chars, 'X')) {
+            System.out.println("X wins");
+            return true;
+        }
+        if (isColumn(chars, 'O')) {
+            System.out.println("O wins");
+            return true;
+        }
+        if (isDiag(chars, 'X')) {
+            System.out.println("X wins");
+            return true;
+        }
+        if (isDiag(chars, 'O')) {
+            System.out.println("O wins");
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean isEmtyCells(char[] chars) {
+        for (char item : chars) {
+            if (item == '_') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void stateGame(char[] chars) {
+        if (isImpossible(chars)) {
+            System.out.println("Impossible");
+            return;
+        }
+        if (isWinsExist(chars)) {
+            return;
+        }
+        if (isEmtyCells(chars)) {
+            System.out.println("Game not finished");
+        } else {
+            System.out.println("Draw");
         }
     }
 }
