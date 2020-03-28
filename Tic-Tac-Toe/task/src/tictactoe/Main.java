@@ -7,18 +7,22 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter cells: ");
         String string = scanner.next();
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("---------\n");
-        stringBuilder.append("|\t");
-        stringBuilder.append(string, 0, 3);
-        stringBuilder.append("\t|\n");
-        stringBuilder.append("|\t");
-        stringBuilder.append(string, 3, 6);
-        stringBuilder.append("\t|\n");
-        stringBuilder.append("|\t");
-        stringBuilder.append(string, 6, 9);
-        stringBuilder.append("\t|\n");
-        stringBuilder.append("---------");
-        System.out.println(stringBuilder.toString());
+        String outString = String.format(
+                "---------\n" +
+                "| %c %c %c |\n" +
+                "| %c %c %c |\n" +
+                "| %c %c %c |\n" +
+                "---------"
+                ,string.charAt(0)
+                ,string.charAt(1)
+                ,string.charAt(2)
+                ,string.charAt(3)
+                ,string.charAt(4)
+                ,string.charAt(5)
+                ,string.charAt(6)
+                ,string.charAt(7)
+                ,string.charAt(8)
+        );
+        System.out.println(outString);
     }
 }
