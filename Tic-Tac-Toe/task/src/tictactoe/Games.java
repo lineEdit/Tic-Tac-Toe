@@ -1,36 +1,49 @@
 package tictactoe;
 
-import java.text.ParseException;
-
 public class Games {
-    char[][] matrix;
+    char[] chars;
 
     public Games(String string) {
-        this.matrix = new char[3][3];
-        for (int i = 0; i < string.length(); ++i) {
-            int[] rc = remapCoordinates(i);
-            matrix[rc[0]][rc[1]] = string.charAt(i);
-        }
+        this.chars = string.toCharArray();
     }
 
-    private int[] remapCoordinates(int index) {
-        int[] rc = new int[2];
-//        rc - row column
+//    private int[] remapCharsToMatrix(int index) {
+//        int[] rc = new int[2];
+////        rc - row column
+//
+//        switch (index) {
+//            case 0: rc[0] = 0; rc[1] = 0; break;
+//            case 1: rc[0] = 1; rc[1] = 0; break;
+//            case 2: rc[0] = 2; rc[1] = 0; break;
+//            case 3: rc[0] = 0; rc[1] = 1; break;
+//            case 4: rc[0] = 1; rc[1] = 1; break;
+//            case 5: rc[0] = 2; rc[1] = 1; break;
+//            case 6: rc[0] = 0; rc[1] = 2; break;
+//            case 7: rc[0] = 1; rc[1] = 2; break;
+//            case 8: rc[0] = 2; rc[1] = 2; break;
+//        }
+//
+//        return rc;
+//    }
 
-        switch (index) {
-            case 0: rc[0] = 1; rc[1] = 3; break;
-            case 1: rc[0] = 2; rc[1] = 3; break;
-            case 2: rc[0] = 3; rc[1] = 3; break;
-            case 3: rc[0] = 1; rc[1] = 2; break;
-            case 4: rc[0] = 2; rc[1] = 2; break;
-            case 5: rc[0] = 3; rc[1] = 2; break;
-            case 6: rc[0] = 1; rc[1] = 1; break;
-            case 7: rc[0] = 2; rc[1] = 1; break;
-            case 8: rc[0] = 3; rc[1] = 1; break;
-        }
-
-        return rc;
-    }
+//    private int[] remapCoordinates(int index) {
+//        int[] rc = new int[2];
+////        rc - row column
+//
+//        switch (index) {
+//            case 0: rc[0] = 1; rc[1] = 3; break;
+//            case 1: rc[0] = 2; rc[1] = 3; break;
+//            case 2: rc[0] = 3; rc[1] = 3; break;
+//            case 3: rc[0] = 1; rc[1] = 2; break;
+//            case 4: rc[0] = 2; rc[1] = 2; break;
+//            case 5: rc[0] = 3; rc[1] = 2; break;
+//            case 6: rc[0] = 1; rc[1] = 1; break;
+//            case 7: rc[0] = 2; rc[1] = 1; break;
+//            case 8: rc[0] = 3; rc[1] = 1; break;
+//        }
+//
+//        return rc;
+//    }
 
     private int remapCoordinates(int row, int column) {
         int index = -1;
@@ -63,21 +76,23 @@ public class Games {
     public void enterCoordinates() {
         while (true) {
             Input input = Input.getInstance();
-            input.sout("Enter the coordinates: ");
-            int row = 0;
-            int column = 0;
-            String str = input.getString();
-            String[] strSplit = str.split(" ");
+            String[] strSplit = input.getString("Enter the coordinates: ").split(" ");
             try {
-                row = Integer.parseInt(strSplit[0]);
-                column = Integer.parseInt(strSplit[1]);
-                if (1 < row || row > 3 || 1 < column || column > 3) {
+                int row = Integer.parseInt(strSplit[0]);
+                int column = Integer.parseInt(strSplit[1]);
+                if (1 > row || row > 3 || 1 > column || column > 3) {
                     System.out.println("Coordinates should be from 1 to 3!");
                 }
+                int index = remapCoordinates(row, column);
+                if (chars[index] != '_') {
+                    chars[index] = 'X';
+                    break;
+                } else {
+                    Input.sout("This cell is occupied! Choose another one!");
+                }
             } catch (NumberFormatException e) {
-                input.sout("You should enter numbers!");
+                Input.sout("You should enter numbers!");
             }
-
          }
     }
 
@@ -88,20 +103,20 @@ public class Games {
                         "| %c %c %c |\n" +
                         "| %c %c %c |\n" +
                         "---------"
-                ,matrix[0][0]
-                ,matrix[1][0]
-                ,matrix[2][0]
-                ,matrix[0][1]
-                ,matrix[1][1]
-                ,matrix[2][1]
-                ,matrix[0][2]
-                ,matrix[1][2]
-                ,matrix[2][2]
+                ,chars[0]
+                ,chars[1]
+                ,chars[2]
+                ,chars[3]
+                ,chars[4]
+                ,chars[5]
+                ,chars[6]
+                ,chars[7]
+                ,chars[8]
         );
         Input.sout(outString);
     }
 
-    private boolean isImpossible(char[] chars) {
+    private boolean isImpossible() {
         int xCount = 0;
         int oCount = 0;
         for (char item : chars) {
@@ -115,10 +130,10 @@ public class Games {
         if (Math.abs(xCount - oCount) > 1) {
             return true;
         }
-        return isWinner(chars, 'X') && isWinner(chars, 'O');
+        return isWinner('X') && isWinner( 'O');
     }
 
-    private boolean isRow(char[] chars, char c) {
+    private boolean isRow(char c) {
         for (int i = 0; i < 3; ++i) {
             if (
                     chars[i] == c &&
@@ -131,7 +146,7 @@ public class Games {
         return false;
     }
 
-    private boolean isColumn(char[] chars, char c) {
+    private boolean isColumn(char c) {
         for (int i = 0; i < 3; ++i) {
             if (
                     chars[i*3] == c &&
@@ -144,7 +159,7 @@ public class Games {
         return false;
     }
 
-    private boolean isDiag(char[] chars, char c) {
+    private boolean isDiag(char c) {
         if (
                 chars[0] == c &&
                         chars[4] == c &&
@@ -157,13 +172,13 @@ public class Games {
                 chars[6] == c;
     }
 
-    private boolean isWinner(char[] chars, char c) {
-        return isRow(chars, c)
-                || isColumn(chars, c)
-                || isDiag(chars, c);
+    private boolean isWinner(char c) {
+        return isRow(c)
+                || isColumn(c)
+                || isDiag(c);
     }
 
-    private boolean isEmtyCells(char[] chars) {
+    private boolean isEmtyCells() {
         for (char item : chars) {
             if (item == '_') {
                 return true;
@@ -172,20 +187,20 @@ public class Games {
         return false;
     }
 
-    public void stateGame(char[] chars) {
-        if (isImpossible(chars)) {
+    public void stateGame() {
+        if (isImpossible()) {
             Input.sout("Impossible");
             return;
         }
-        if (isWinner(chars, 'X')) {
+        if (isWinner('X')) {
             Input.sout("X wins");
             return;
         }
-        if (isWinner(chars, 'O')) {
+        if (isWinner('O')) {
             Input.sout("O wins");
             return;
         }
-        if (isEmtyCells(chars)) {
+        if (isEmtyCells()) {
             Input.sout("Game not finished");
         } else {
             Input.sout("Draw");

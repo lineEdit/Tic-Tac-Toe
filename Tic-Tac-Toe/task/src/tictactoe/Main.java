@@ -6,5 +6,6 @@ public class Main {
         input.logOff();
         Games games = new Games(input.getString("Enter cells: "));
         games.show();
+        games.enterCoordinates();
     }
 }
