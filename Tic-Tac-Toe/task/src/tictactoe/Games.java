@@ -1,10 +1,16 @@
 package tictactoe;
 
+import java.text.ParseException;
+
 public class Games {
     char[][] matrix;
 
-    public Games() {
+    public Games(String string) {
         this.matrix = new char[3][3];
+        for (int i = 0; i < string.length(); ++i) {
+            int[] rc = remapCoordinates(i);
+            matrix[rc[0]][rc[1]] = string.charAt(i);
+        }
     }
 
     private int[] remapCoordinates(int index) {
@@ -54,44 +60,43 @@ public class Games {
         return index;
     }
     
-    public void enterCoordinates(int row, int column) {
-//        while (true) {
-//            System.out.println("Enter the coordinates: ");
-//            int row = 0;
-//            int column = 0;
-//            if (scanner.hasNextInt() && scanner.hasNextInt()) {
-//                row = scanner.nextInt();
-//                column = scanner.nextInt();
-//                if (1 < row || row > 3 || 1 < column || column > 3) {
-//                    System.out.println("Coordinates should be from 1 to 3!");
-//                }
-//            } else {
-//                System.out.println("You should enter numbers!");
-//            }
-//            if (matrix[row][column] != '_') {
-//                System.out.println("This cell is occupied! Choose another one!");
-//            } else {
-//
-//            }
-//        }
+    public void enterCoordinates() {
+        while (true) {
+            Input input = Input.getInstance();
+            input.sout("Enter the coordinates: ");
+            int row = 0;
+            int column = 0;
+            String str = input.getString();
+            String[] strSplit = str.split(" ");
+            try {
+                row = Integer.parseInt(strSplit[0]);
+                column = Integer.parseInt(strSplit[1]);
+                if (1 < row || row > 3 || 1 < column || column > 3) {
+                    System.out.println("Coordinates should be from 1 to 3!");
+                }
+            } catch (NumberFormatException e) {
+                input.sout("You should enter numbers!");
+            }
+
+         }
     }
 
-    public void show(char[] chars) {
+    public void show() {
         String outString = String.format(
                 "---------\n" +
                         "| %c %c %c |\n" +
                         "| %c %c %c |\n" +
                         "| %c %c %c |\n" +
                         "---------"
-                ,chars[0]
-                ,chars[1]
-                ,chars[2]
-                ,chars[3]
-                ,chars[4]
-                ,chars[5]
-                ,chars[6]
-                ,chars[7]
-                ,chars[8]
+                ,matrix[0][0]
+                ,matrix[1][0]
+                ,matrix[2][0]
+                ,matrix[0][1]
+                ,matrix[1][1]
+                ,matrix[2][1]
+                ,matrix[0][2]
+                ,matrix[1][2]
+                ,matrix[2][2]
         );
         Input.sout(outString);
     }
