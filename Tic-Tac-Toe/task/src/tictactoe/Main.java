@@ -6,22 +6,26 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter cells: ");
-        String string = scanner.next();
+        char[] chars = scanner.next().toCharArray();
+        show(chars);
+    }
+
+    private static void show(char[] chars) {
         String outString = String.format(
                 "---------\n" +
                 "| %c %c %c |\n" +
                 "| %c %c %c |\n" +
                 "| %c %c %c |\n" +
                 "---------"
-                ,string.charAt(0)
-                ,string.charAt(1)
-                ,string.charAt(2)
-                ,string.charAt(3)
-                ,string.charAt(4)
-                ,string.charAt(5)
-                ,string.charAt(6)
-                ,string.charAt(7)
-                ,string.charAt(8)
+                ,chars[0]
+                ,chars[1]
+                ,chars[2]
+                ,chars[3]
+                ,chars[4]
+                ,chars[5]
+                ,chars[6]
+                ,chars[7]
+                ,chars[8]
         );
         System.out.println(outString);
     }
