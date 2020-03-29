@@ -2,48 +2,12 @@ package tictactoe;
 
 public class Games {
     char[] chars;
+    int move;
 
     public Games(String string) {
         this.chars = string.toCharArray();
+        this.move = 0;
     }
-
-//    private int[] remapCharsToMatrix(int index) {
-//        int[] rc = new int[2];
-////        rc - row column
-//
-//        switch (index) {
-//            case 0: rc[0] = 0; rc[1] = 0; break;
-//            case 1: rc[0] = 1; rc[1] = 0; break;
-//            case 2: rc[0] = 2; rc[1] = 0; break;
-//            case 3: rc[0] = 0; rc[1] = 1; break;
-//            case 4: rc[0] = 1; rc[1] = 1; break;
-//            case 5: rc[0] = 2; rc[1] = 1; break;
-//            case 6: rc[0] = 0; rc[1] = 2; break;
-//            case 7: rc[0] = 1; rc[1] = 2; break;
-//            case 8: rc[0] = 2; rc[1] = 2; break;
-//        }
-//
-//        return rc;
-//    }
-
-//    private int[] remapCoordinates(int index) {
-//        int[] rc = new int[2];
-////        rc - row column
-//
-//        switch (index) {
-//            case 0: rc[0] = 1; rc[1] = 3; break;
-//            case 1: rc[0] = 2; rc[1] = 3; break;
-//            case 2: rc[0] = 3; rc[1] = 3; break;
-//            case 3: rc[0] = 1; rc[1] = 2; break;
-//            case 4: rc[0] = 2; rc[1] = 2; break;
-//            case 5: rc[0] = 3; rc[1] = 2; break;
-//            case 6: rc[0] = 1; rc[1] = 1; break;
-//            case 7: rc[0] = 2; rc[1] = 1; break;
-//            case 8: rc[0] = 3; rc[1] = 1; break;
-//        }
-//
-//        return rc;
-//    }
 
     private int remapCoordinates(int row, int column) {
         int index = -1;
@@ -85,7 +49,12 @@ public class Games {
                 } else {
                     int index = remapCoordinates(row, column);
                     if (chars[index] == '_') {
-                        chars[index] = 'X';
+                        if (move % 2 == 0) {
+                            chars[index] = 'X';
+                        } else {
+                            chars[index] = 'O';
+                        }
+                        ++move;
                         show();
                         break;
                     } else {
@@ -189,23 +158,23 @@ public class Games {
         return false;
     }
 
-    public void stateGame() {
+    public boolean isGameEnd() {
         if (isImpossible()) {
             Input.sout("Impossible");
-            return;
+            return true;
         }
         if (isWinner('X')) {
             Input.sout("X wins");
-            return;
+            return true;
         }
         if (isWinner('O')) {
             Input.sout("O wins");
-            return;
+            return true;
         }
-        if (isEmtyCells()) {
-            Input.sout("Game not finished");
-        } else {
+        if (!isEmtyCells() || move >= 9) {
             Input.sout("Draw");
+            return true;
         }
+        return false;
     }
 }

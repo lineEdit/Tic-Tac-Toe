@@ -4,8 +4,10 @@ public class Main {
     public static void main(String[] args) {
         Input input = Input.getInstance();
         input.logOff();
-        Games games = new Games(input.getString("Enter cells: "));
+        Games games = new Games("_________");
         games.show();
-        games.enterCoordinates();
+        while (!games.isGameEnd()) {
+            games.enterCoordinates();
+        }
     }
 }
